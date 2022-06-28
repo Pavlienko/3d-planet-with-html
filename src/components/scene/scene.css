@@ -1,0 +1,19 @@
+.app-scene {
+  margin: 0 auto;
+  padding: 0;
+  box-sizing: border-box;
+  /* border: 1px solid yellow; */
+}
+
+.pointer {
+    width: 4px;
+    height: 4px;
+    background-color: #fff7;
+    border-radius: 50%;
+
+  transition: all 200ms ease;
+}
+
+.pointer:hover {
+  transform: scale(1.2);
+}
