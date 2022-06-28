@@ -1,5 +1,5 @@
 import React, { useRef, useState } from "react";
-import { Color, AdditiveBlending, BackSide } from "three";
+import { AdditiveBlending, BackSide } from "three";
 import { TextureLoader } from "three/src/loaders/TextureLoader";
 import { Canvas, extend, useFrame, useLoader } from "@react-three/fiber";
 import { OrbitControls, Html, shaderMaterial } from "@react-three/drei";
