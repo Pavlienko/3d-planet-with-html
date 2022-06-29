@@ -54,7 +54,7 @@ const Scene = (props) => {
     );
     return (
       <mesh {...props} ref={ref} scale={2}>
-        {/* the html pointers goes here */}
+        {/* the html pointers goes here, it takes array of objects (reviews) from API and creates points on sphere*/}
 
         {reviews.map((element) => {
           return (
