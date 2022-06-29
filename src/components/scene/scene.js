@@ -45,14 +45,41 @@ const Scene = (props) => {
 
   function Globe(props) {
     const ref = useRef();
+    const [hovered, hover] = useState(false);
     // Subscribe this component to the render-loop, rotate the mesh every frame
-    useFrame((state, delta) => (ref.current.rotation.y -= 0.001));
+    useFrame((state, delta) =>
+      hovered
+        ? (ref.current.rotation.y -= 0)
+        : (ref.current.rotation.y -= 0.001)
+    );
     return (
       <mesh {...props} ref={ref} scale={2}>
-        {/* the html pointer here */}
-        <Pointer position={[1, 0.1, 0]}>
-          <div className="pointer"></div>
+        {/* the html pointers goes here */}
+        <Pointer position={[1.001, 0.001, 0]}>
+          <div
+            className="pointer"
+            onMouseOver={(event) => hover(true)}
+            onMouseOut={(event) => hover(false)}
+          >
+            <div className="pointer-content-wrapper">
+              <div className="pointer-content-description">
+                <div className="pointer-content-photo">
+                    <img src={toneMap} alt="avatar" />
+                </div>
+                <div className="pointer-content-name-wrapper">
+                  <div className="pointer-content-name">Yana Kravitz</div>
+                </div>
+              </div>
+              <div className="pointer-content-text">
+                Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ipsa
+                temporibus excepturi suscipit mollitia enim impedit dolorem!
+                Necessitatibus harum, beatae facilis error culpa, perspiciatis
+                exercitationem quaerat est repellendus id nemo aut.
+              </div>
+            </div>
+          </div>
         </Pointer>
+
         <sphereGeometry args={[1, 256, 256]} />
         <meshStandardMaterial
           color={"#295BFB"}
@@ -102,7 +129,7 @@ const Scene = (props) => {
         style={{
           transition: "all 0.2s",
           opacity: occluded ? 0 : 1,
-          transform: `scale(${occluded ? 0.25 : 5})`,
+          transform: `scale(${occluded ? 0.25 : 1})`,
         }}
         {...props}
       >
@@ -137,7 +164,7 @@ const Scene = (props) => {
         />
         <Globe position={[0, 0, 0]} rotation={[Math.PI / 6, 0, 0]} />
         <Atmosphere position={[-0.07, 0.07, 0]} />
-        <OrbitControls enableZoom={false} enablePan={false}/>
+        <OrbitControls enableZoom={false} enablePan={false} />
       </Canvas>
     </div>
   );
