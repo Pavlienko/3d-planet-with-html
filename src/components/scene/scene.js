@@ -17,7 +17,7 @@ import "./scene.css";
 
 //CODE
 const Scene = (props) => {
-  const { canvasWidth, canvasHeight } = props;
+  const { canvasWidth, canvasHeight, reviews } = props;
 
   const colorMap = useLoader(TextureLoader, earthMap);
   const specularColorMap = useLoader(TextureLoader, specularMap);
@@ -55,30 +55,33 @@ const Scene = (props) => {
     return (
       <mesh {...props} ref={ref} scale={2}>
         {/* the html pointers goes here */}
-        <Pointer position={[1.001, 0.001, 0]}>
-          <div
-            className="pointer"
-            onMouseOver={(event) => hover(true)}
-            onMouseOut={(event) => hover(false)}
-          >
-            <div className="pointer-content-wrapper">
-              <div className="pointer-content-description">
-                <div className="pointer-content-photo">
-                    <img src={toneMap} alt="avatar" />
-                </div>
-                <div className="pointer-content-name-wrapper">
-                  <div className="pointer-content-name">Yana Kravitz</div>
+
+        {reviews.map((element) => {
+          return (
+            <Pointer
+              position={element.coords}
+              key={`pointer-number-${element.id}`}
+            >
+              <div
+                className="pointer"
+                onMouseOver={(event) => hover(true)}
+                onMouseOut={(event) => hover(false)}
+              >
+                <div className="pointer-content-wrapper">
+                  <div className="pointer-content-description">
+                    <div className="pointer-content-photo">
+                      <img src={element.photo} alt="avatar" />
+                    </div>
+                    <div className="pointer-content-name-wrapper">
+                      <div className="pointer-content-name">{element.name}</div>
+                    </div>
+                  </div>
+                  <div className="pointer-content-text">{element.text}</div>
                 </div>
               </div>
-              <div className="pointer-content-text">
-                Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ipsa
-                temporibus excepturi suscipit mollitia enim impedit dolorem!
-                Necessitatibus harum, beatae facilis error culpa, perspiciatis
-                exercitationem quaerat est repellendus id nemo aut.
-              </div>
-            </div>
-          </div>
-        </Pointer>
+            </Pointer>
+          );
+        })}
 
         <sphereGeometry args={[1, 256, 256]} />
         <meshStandardMaterial
