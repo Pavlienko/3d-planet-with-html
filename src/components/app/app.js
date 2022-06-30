@@ -13,16 +13,17 @@ const App = () => {
     {
       id: 1,
       photo: "https://fshcdn.com/q/Jrb2KdW_qphh6IA7__256x256.jpg?w=640",
-      name: "Mike Shadow",
+      name: "Lizabeth Moscow",
       text: "Lorem ipsum dolor sit amet consectetur adipisicing elit, mollitia!",
-      coords: [1.001, 0.001, 0],
+      // coords: Coords(55,37)
+      coords:[55,37]
     },
     {
       id: 2,
       photo: "https://fshcdn.com/q/Jrb2KdW_qphh6IA7__256x256.jpg?w=640",
-      name: "Lizabeth Shadow",
+      name: "Mike Smither New York",
       text: "Lorem ipsum dolor sit amet consectetur adipisicing elit, mollitia!",
-      coords: [0.001, 1.001, 0],
+      coords: [40,-74]
     },
   ];
 

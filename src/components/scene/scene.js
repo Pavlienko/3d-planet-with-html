@@ -1,5 +1,5 @@
 import React, { useRef, useState } from "react";
-import { AdditiveBlending, BackSide } from "three";
+import { AdditiveBlending, BackSide, Spherical, Vector3 } from "three";
 import { TextureLoader } from "three/src/loaders/TextureLoader";
 import { Canvas, extend, useFrame, useLoader } from "@react-three/fiber";
 import { OrbitControls, Html, shaderMaterial } from "@react-three/drei";
@@ -21,7 +21,7 @@ const Scene = (props) => {
 
   const colorMap = useLoader(TextureLoader, earthMap);
   const specularColorMap = useLoader(TextureLoader, specularMap);
-  const toneColorMap = useLoader(TextureLoader, toneMap);
+  const toneColorMap = useLoader(TextureLoader, toneMap );
 
   extend({
     // shaderMaterial creates a THREE.ShaderMaterial, and auto-creates uniform setter/getters
@@ -43,6 +43,17 @@ const Scene = (props) => {
     ),
   });
 
+  function polar2Cartesian(lat, lng, relAltitude = 0) {
+    const phi = (90 - lat) * Math.PI / 180;
+    const theta = (90 - lng) * Math.PI / 180;
+    const r = 1.001 * (1 + relAltitude);
+    return {
+      x: r * Math.sin(phi) * Math.cos(theta),
+      y: r * Math.cos(phi),
+      z: r * Math.sin(phi) * Math.sin(theta)
+    };
+  }
+
   function Globe(props) {
     const ref = useRef();
     const [hovered, hover] = useState(false);
@@ -54,12 +65,15 @@ const Scene = (props) => {
     );
     return (
       <mesh {...props} ref={ref} scale={2}>
-        {/* the html pointers goes here, it takes array of objects (reviews) from API and creates points on sphere*/}
 
+        {/* the html pointers goes here, it takes array of objects (reviews) from API and creates points on sphere*/}
+        <group rotation={[0,Math.PI/2,0]}>
         {reviews.map((element) => {
+
+            const pointPos = polar2Cartesian(element.coords[0],element.coords[1]);
           return (
             <Pointer
-              position={element.coords}
+              position={[pointPos.x,pointPos.y,pointPos.z]}
               key={`pointer-number-${element.id}`}
             >
               <div
@@ -82,8 +96,9 @@ const Scene = (props) => {
             </Pointer>
           );
         })}
+        </group>
 
-        <sphereGeometry args={[1, 256, 256]} />
+        <sphereGeometry args={[1, 128, 256]}/>
         <meshStandardMaterial
           color={"#295BFB"}
           roughness={0.75}
@@ -92,8 +107,6 @@ const Scene = (props) => {
           metalnessMap={colorMap}
           bumpMap={colorMap}
           bumpScale={0.03}
-          //   transparent={true}
-          //   alphaMap={specularColorMap}
           map={toneColorMap}
         />
       </mesh>
@@ -165,7 +178,10 @@ const Scene = (props) => {
           lookAt={[0, 0, 0]}
           intensity={0.25}
         />
-        <Globe position={[0, 0, 0]} rotation={[Math.PI / 6, 0, 0]} />
+        <Globe 
+        position={[0, 0, 0]} 
+        rotation={[Math.PI / 6, -2, 0]} 
+        />
         <Atmosphere position={[-0.07, 0.07, 0]} />
         <OrbitControls enableZoom={false} enablePan={false} />
       </Canvas>
