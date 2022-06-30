@@ -15,7 +15,6 @@ const App = () => {
       photo: "https://fshcdn.com/q/Jrb2KdW_qphh6IA7__256x256.jpg?w=640",
       name: "Lizabeth Moscow",
       text: "Lorem ipsum dolor sit amet consectetur adipisicing elit, mollitia!",
-      // coords: Coords(55,37)
       coords:[55,37]
     },
     {
